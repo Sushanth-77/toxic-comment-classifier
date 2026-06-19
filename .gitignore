@@ -1,0 +1,14 @@
+venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.env
+mlruns/
+.pytest_cache/
+.dvc/cache/
+data/raw/*.csv
+data/interim/*.csv
+data/processed/*.csv
+models/artifacts/*.pkl
+models/artifacts/*.pt
+models/artifacts/*.joblib
