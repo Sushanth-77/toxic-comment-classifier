@@ -15,16 +15,15 @@ TFIDF_CONFIG = {
 }
 
 
-def build_tfidf_vectorizer() -> TfidfVectorizer:
-    """Return a TfidfVectorizer with the project's locked-in config.
+def build_tfidf_vectorizer(config: dict | None = None) -> TfidfVectorizer:
+    """Return a TfidfVectorizer, optionally configured from params.yaml.
 
-    Config choices:
-    - max_features=50000: large enough to capture rare toxic vocabulary,
-      small enough to keep the LR baseline fast and the artifact small.
-    - ngram_range=(1, 2): unigrams + bigrams to catch short toxic phrases.
-    - min_df=2: drops singleton tokens (typos, usernames, noise).
-    - sublinear_tf=True: log-scales term frequency, dampens repeated-word
-      spam within a single comment.
+    If config is provided (e.g. params["tfidf"] from load_params()), it
+    overrides TFIDF_CONFIG. ngram_range is normalized to a tuple since
+    YAML deserializes it as a list.
     """
-    logger.info("Building TfidfVectorizer with config: %s", TFIDF_CONFIG)
-    return TfidfVectorizer(**TFIDF_CONFIG)
+    merged = {**TFIDF_CONFIG, **(config or {})}
+    if "ngram_range" in merged:
+        merged["ngram_range"] = tuple(merged["ngram_range"])
+    logger.info("Building TfidfVectorizer with config: %s", merged)
+    return TfidfVectorizer(**merged)

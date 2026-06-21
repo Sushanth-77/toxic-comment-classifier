@@ -10,6 +10,7 @@ import joblib
 import pandas as pd
 from scipy import sparse
 
+from toxic_clf.config import load_params
 from toxic_clf.features_tfidf import build_tfidf_vectorizer
 
 logging.basicConfig(
@@ -23,6 +24,8 @@ VAL_FEATURES_PATH = "data/processed/tfidf_val.npz"
 
 
 def main() -> None:
+    params = load_params()
+
     train_df = pd.read_csv("data/processed/train.csv")
     val_df = pd.read_csv("data/processed/val.csv")
 
@@ -32,7 +35,7 @@ def main() -> None:
     train_df["clean_heavy"] = train_df["clean_heavy"].fillna("")
     val_df["clean_heavy"] = val_df["clean_heavy"].fillna("")
 
-    vectorizer = build_tfidf_vectorizer()
+    vectorizer = build_tfidf_vectorizer(params["tfidf"])
 
     logger.info("Fitting vectorizer on train clean_heavy text (%d rows)", len(train_df))
     X_train = vectorizer.fit_transform(train_df["clean_heavy"])

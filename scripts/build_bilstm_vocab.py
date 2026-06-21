@@ -8,6 +8,7 @@ import logging
 
 import pandas as pd
 
+from toxic_clf.config import load_params
 from toxic_clf.vocab import build_vocab, save_vocab
 
 logging.basicConfig(
@@ -15,16 +16,17 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-VOCAB_SIZE = 50000
 VOCAB_PATH = "models/artifacts/bilstm_vocab.json"
 
 
 def main() -> None:
+    params = load_params()
+    vocab_size = params["bilstm"]["vocab_size"]
+
     train_df = pd.read_csv("data/processed/train.csv")
-    # Same CSV-roundtrip NaN issue as Phase 4B -- guard defensively.
     train_df["clean_heavy"] = train_df["clean_heavy"].fillna("")
 
-    vocab = build_vocab(train_df["clean_heavy"], vocab_size=VOCAB_SIZE)
+    vocab = build_vocab(train_df["clean_heavy"], vocab_size=vocab_size)
     save_vocab(vocab, VOCAB_PATH)
     logger.info("Saved vocab (%d tokens) to %s", len(vocab), VOCAB_PATH)
 
