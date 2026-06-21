@@ -1,0 +1,110 @@
+schema: '2.0'
+stages:
+  build_processed_data:
+    cmd: python scripts/build_processed_data.py
+    deps:
+    - path: data/raw/train.csv
+      hash: md5
+      md5: 791e42335500c447273a7dc85f58239e
+      size: 68802655
+    - path: scripts/build_processed_data.py
+      hash: md5
+      md5: b5cdbe64945618e61f5324585cb184e9
+      size: 1158
+    - path: src/toxic_clf/config.py
+      hash: md5
+      md5: 9c4c9ec4dc2be0a0ad3f2b5925481bc7
+      size: 622
+    - path: src/toxic_clf/data.py
+      hash: md5
+      md5: 7de7bbe3530c29da275d97e06a56fa7e
+      size: 1580
+    - path: src/toxic_clf/preprocessing.py
+      hash: md5
+      md5: a3c8297faef30d2cecaeb8c70b2c4abf
+      size: 2733
+    params:
+      params.yaml:
+        split.random_state: 42
+        split.val_size: 0.1
+    outs:
+    - path: data/processed/train.csv
+      hash: md5
+      md5: e1a34fd8fcb6cc414861600d079afe9c
+      size: 171743312
+    - path: data/processed/val.csv
+      hash: md5
+      md5: edae44241d67340203579d9c1196695d
+      size: 19245998
+  build_tfidf_features:
+    cmd: python scripts/build_tfidf_features.py
+    deps:
+    - path: data/processed/train.csv
+      hash: md5
+      md5: e1a34fd8fcb6cc414861600d079afe9c
+      size: 171743312
+    - path: data/processed/val.csv
+      hash: md5
+      md5: edae44241d67340203579d9c1196695d
+      size: 19245998
+    - path: scripts/build_tfidf_features.py
+      hash: md5
+      md5: 0a9c3b4a1cea4d6ab7c2f294987f5eca
+      size: 1909
+    - path: src/toxic_clf/config.py
+      hash: md5
+      md5: 9c4c9ec4dc2be0a0ad3f2b5925481bc7
+      size: 622
+    - path: src/toxic_clf/features_tfidf.py
+      hash: md5
+      md5: 824b83667c3021fe71962823e1405eae
+      size: 912
+    params:
+      params.yaml:
+        tfidf.max_features: 50000
+        tfidf.min_df: 2
+        tfidf.ngram_range:
+        - 1
+        - 2
+        tfidf.strip_accents: unicode
+        tfidf.sublinear_tf: true
+    outs:
+    - path: data/processed/tfidf_train.npz
+      hash: md5
+      md5: a37a9853c745dc34667f0351b1721138
+      size: 98059572
+    - path: data/processed/tfidf_val.npz
+      hash: md5
+      md5: bca0e778334b7f35f0d05faa1ba1e819
+      size: 10700434
+    - path: models/artifacts/tfidf_vectorizer.joblib
+      hash: md5
+      md5: c801affdc34f50b823e1e3190bb71954
+      size: 1765336
+  build_bilstm_vocab:
+    cmd: python scripts/build_bilstm_vocab.py
+    deps:
+    - path: data/processed/train.csv
+      hash: md5
+      md5: e1a34fd8fcb6cc414861600d079afe9c
+      size: 171743312
+    - path: scripts/build_bilstm_vocab.py
+      hash: md5
+      md5: 1422a7297e76c745a57ae4e46be09f2e
+      size: 899
+    - path: src/toxic_clf/config.py
+      hash: md5
+      md5: 9c4c9ec4dc2be0a0ad3f2b5925481bc7
+      size: 622
+    - path: src/toxic_clf/vocab.py
+      hash: md5
+      md5: 83d250eccc3aed47dd8d114f2b2190a1
+      size: 1910
+    params:
+      params.yaml:
+        bilstm.vocab_size: 50000
+    outs:
+    - path: models/artifacts/bilstm_vocab.json
+      hash: md5
+      md5: 1c46eb33a60c1c15c5f35b4ba14ff789
+      size: 902891

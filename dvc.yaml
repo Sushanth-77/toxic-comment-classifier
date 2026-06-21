@@ -1,0 +1,46 @@
+stages:
+  build_processed_data:
+    cmd: python scripts/build_processed_data.py
+    deps:
+      - scripts/build_processed_data.py
+      - src/toxic_clf/data.py
+      - src/toxic_clf/preprocessing.py
+      - src/toxic_clf/config.py
+      - data/raw/train.csv
+    params:
+      - split.val_size
+      - split.random_state
+    outs:
+      - data/processed/train.csv
+      - data/processed/val.csv
+
+  build_tfidf_features:
+    cmd: python scripts/build_tfidf_features.py
+    deps:
+      - scripts/build_tfidf_features.py
+      - src/toxic_clf/features_tfidf.py
+      - src/toxic_clf/config.py
+      - data/processed/train.csv
+      - data/processed/val.csv
+    params:
+      - tfidf.max_features
+      - tfidf.ngram_range
+      - tfidf.min_df
+      - tfidf.sublinear_tf
+      - tfidf.strip_accents
+    outs:
+      - models/artifacts/tfidf_vectorizer.joblib
+      - data/processed/tfidf_train.npz
+      - data/processed/tfidf_val.npz
+
+  build_bilstm_vocab:
+    cmd: python scripts/build_bilstm_vocab.py
+    deps:
+      - scripts/build_bilstm_vocab.py
+      - src/toxic_clf/vocab.py
+      - src/toxic_clf/config.py
+      - data/processed/train.csv
+    params:
+      - bilstm.vocab_size
+    outs:
+      - models/artifacts/bilstm_vocab.json
