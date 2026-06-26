@@ -108,3 +108,53 @@ stages:
       hash: md5
       md5: 1c46eb33a60c1c15c5f35b4ba14ff789
       size: 902891
+  train_logreg:
+    cmd: python scripts/train_logreg.py
+    deps:
+    - path: data/processed/tfidf_train.npz
+      hash: md5
+      md5: a37a9853c745dc34667f0351b1721138
+      size: 98059572
+    - path: data/processed/tfidf_val.npz
+      hash: md5
+      md5: bca0e778334b7f35f0d05faa1ba1e819
+      size: 10700434
+    - path: data/processed/train.csv
+      hash: md5
+      md5: e1a34fd8fcb6cc414861600d079afe9c
+      size: 171743312
+    - path: data/processed/val.csv
+      hash: md5
+      md5: edae44241d67340203579d9c1196695d
+      size: 19245998
+    - path: scripts/train_logreg.py
+      hash: md5
+      md5: ea19ef31c2ce1a2c0bcb2cdd2e9f41c0
+      size: 228
+    - path: src/toxic_clf/config.py
+      hash: md5
+      md5: 9c4c9ec4dc2be0a0ad3f2b5925481bc7
+      size: 622
+    - path: src/toxic_clf/metrics.py
+      hash: md5
+      md5: 7ba0b9f4440e4be8050232355312f7e0
+      size: 2953
+    - path: src/toxic_clf/mlflow_utils.py
+      hash: md5
+      md5: 2da8e2952541c5fa15836ccd2a06cee4
+      size: 2531
+    - path: src/toxic_clf/train_logreg.py
+      hash: md5
+      md5: 53dd690518d95f2941e32112a5bfae9a
+      size: 3556
+    params:
+      params.yaml:
+        logreg.C: 1.0
+        logreg.class_weight: balanced
+        logreg.max_iter: 1000
+        logreg.solver: liblinear
+    outs:
+    - path: models/artifacts/logreg_model.joblib
+      hash: md5
+      md5: 41be63b6b9fe761b32a04a0fc3c51124
+      size: 2402992

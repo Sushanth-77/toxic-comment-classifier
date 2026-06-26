@@ -44,3 +44,23 @@ stages:
       - bilstm.vocab_size
     outs:
       - models/artifacts/bilstm_vocab.json
+      
+  train_logreg:
+    cmd: python scripts/train_logreg.py
+    deps:
+      - scripts/train_logreg.py
+      - src/toxic_clf/train_logreg.py
+      - src/toxic_clf/config.py
+      - src/toxic_clf/metrics.py
+      - src/toxic_clf/mlflow_utils.py
+      - data/processed/train.csv
+      - data/processed/val.csv
+      - data/processed/tfidf_train.npz
+      - data/processed/tfidf_val.npz
+    params:
+      - logreg.C
+      - logreg.max_iter
+      - logreg.class_weight
+      - logreg.solver
+    outs:
+      - models/artifacts/logreg_model.joblib

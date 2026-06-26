@@ -17,5 +17,11 @@ transformer:
   model_name: distilbert-base-uncased
   max_length: 256
 
+logreg:
+  C: 1.0
+  max_iter: 1000
+  class_weight: balanced
+  solver: liblinear
+
 mlflow:
   experiment_name: toxic-comment-classification
