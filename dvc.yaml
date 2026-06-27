@@ -64,3 +64,30 @@ stages:
       - logreg.solver
     outs:
       - models/artifacts/logreg_model.joblib
+    
+  train_bilstm:
+    cmd: python scripts/train_bilstm.py
+    deps:
+      - scripts/train_bilstm.py
+      - src/toxic_clf/train_bilstm.py
+      - src/toxic_clf/bilstm_model.py
+      - src/toxic_clf/datasets_bilstm.py
+      - src/toxic_clf/vocab.py
+      - src/toxic_clf/config.py
+      - src/toxic_clf/metrics.py
+      - src/toxic_clf/mlflow_utils.py
+      - data/processed/train.csv
+      - data/processed/val.csv
+      - models/artifacts/bilstm_vocab.json
+    params:
+      - bilstm.max_len
+      - bilstm.embedding_dim
+      - bilstm.hidden_dim
+      - bilstm.dropout
+      - bilstm.batch_size
+      - bilstm.learning_rate
+      - bilstm.max_epochs
+      - bilstm.patience
+      - bilstm.seed
+    outs:
+      - models/artifacts/bilstm_model.pt

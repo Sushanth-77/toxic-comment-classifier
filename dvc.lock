@@ -158,3 +158,66 @@ stages:
       hash: md5
       md5: 41be63b6b9fe761b32a04a0fc3c51124
       size: 2402992
+  train_bilstm:
+    cmd: python scripts/train_bilstm.py
+    deps:
+    - path: data/processed/train.csv
+      hash: md5
+      md5: e1a34fd8fcb6cc414861600d079afe9c
+      size: 171743312
+    - path: data/processed/val.csv
+      hash: md5
+      md5: edae44241d67340203579d9c1196695d
+      size: 19245998
+    - path: models/artifacts/bilstm_vocab.json
+      hash: md5
+      md5: 1c46eb33a60c1c15c5f35b4ba14ff789
+      size: 902891
+    - path: scripts/train_bilstm.py
+      hash: md5
+      md5: d976c21baa4047211dd2a03b5c3d63a8
+      size: 206
+    - path: src/toxic_clf/bilstm_model.py
+      hash: md5
+      md5: fe3ea0fb81a0a534478853e25d78fd3a
+      size: 2230
+    - path: src/toxic_clf/config.py
+      hash: md5
+      md5: 9c4c9ec4dc2be0a0ad3f2b5925481bc7
+      size: 622
+    - path: src/toxic_clf/datasets_bilstm.py
+      hash: md5
+      md5: 1416a193c98520b9465281a53d2c5ba3
+      size: 1204
+    - path: src/toxic_clf/metrics.py
+      hash: md5
+      md5: 7ba0b9f4440e4be8050232355312f7e0
+      size: 2953
+    - path: src/toxic_clf/mlflow_utils.py
+      hash: md5
+      md5: 2da8e2952541c5fa15836ccd2a06cee4
+      size: 2531
+    - path: src/toxic_clf/train_bilstm.py
+      hash: md5
+      md5: 7a5b689fd5e4b6721bc471ec0fa9479b
+      size: 7126
+    - path: src/toxic_clf/vocab.py
+      hash: md5
+      md5: 83d250eccc3aed47dd8d114f2b2190a1
+      size: 1910
+    params:
+      params.yaml:
+        bilstm.batch_size: 64
+        bilstm.dropout: 0.3
+        bilstm.embedding_dim: 128
+        bilstm.hidden_dim: 128
+        bilstm.learning_rate: 0.001
+        bilstm.max_epochs: 15
+        bilstm.max_len: 200
+        bilstm.patience: 3
+        bilstm.seed: 42
+    outs:
+    - path: models/artifacts/bilstm_model.pt
+      hash: md5
+      md5: ad892ae373e6f593cd8c9ae0a32f09ff
+      size: 26673152
