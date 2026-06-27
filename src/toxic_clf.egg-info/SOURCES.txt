@@ -1,7 +1,0 @@
-README.md
-pyproject.toml
-src/toxic_clf/__init__.py
-src/toxic_clf.egg-info/PKG-INFO
-src/toxic_clf.egg-info/SOURCES.txt
-src/toxic_clf.egg-info/dependency_links.txt
-src/toxic_clf.egg-info/top_level.txt
