@@ -172,8 +172,22 @@ def train(run_name: str = "distilbert-baseline", smoke_test: bool = False) -> di
     max_epochs = 1 if smoke_test else t_params["max_epochs"]
     patience = t_params["patience"]
 
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
-    val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
+    num_workers = 2
+    pin_memory = device.type == "cuda"
+    train_loader = DataLoader(
+        train_dataset,
+        batch_size=batch_size,
+        shuffle=True,
+        num_workers=num_workers,
+        pin_memory=pin_memory,
+    )
+    val_loader = DataLoader(
+        val_dataset,
+        batch_size=batch_size,
+        shuffle=False,
+        num_workers=num_workers,
+        pin_memory=pin_memory,
+    )
 
     model = build_model(t_params["model_name"]).to(device)
     pos_weight = compute_pos_weight(train_dataset.labels).to(device)

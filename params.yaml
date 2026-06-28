@@ -26,8 +26,8 @@ transformer:
   max_length: 256
   batch_size: 16
   learning_rate: 2.0e-5
-  max_epochs: 3
-  patience: 1
+  max_epochs: 6
+  patience: 2
   weight_decay: 0.01
   warmup_ratio: 0.1
   seed: 42
